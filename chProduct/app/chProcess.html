@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="twilightAPP">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <title>晨昏轨道卫星综合演示流程运行状态监视</title>
+    <link rel="shortcut icon" href="/public/logo.ico">
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+
+    <!--左侧菜单栏-->
+    <link rel="stylesheet" href="/lib/VerticalMenu/VerticalMenu.css">
+    <!--<link rel="stylesheet" href="/bower_components/awesome/css/font-awesome.min.css">-->
+    <link href="http://www.jq22.com/jquery/font-awesome.4.6.0.css" rel="stylesheet" media="screen">
+
+    <!--jq 进度圈-->
+    <link href="/lib/cricle/jquery.circliful.css" rel="stylesheet" type="text/css"/>
+
+    <link rel="stylesheet" href="/styles/chProcess.css">
+</head>
+<body ng-controller="twilightCompareCtrl as twilightCtrl">
+<div class="processBg">
+    <div class="processTop">
+        <div class="span2 processTopBack">
+            <div class="backImg"></div>
+        </div>
+        <div class="span6 processTopTile">
+            <p>晨昏轨道卫星综合演示流程运行状态监视</p>
+        </div>
+    </div>
+    <div class="processBottom">
+        <div class="processMenu">
+            <div class="VerticalMenu" id="VerticalMenu" ng-click="changeMenu($event)">
+                <div class="menu">
+                    <div class="navigationOne"><span>正演仿真</span><i class="fa fa-angle-right fa-lg" leng="s"
+                                                                   style="-webkit-transform: rotate(90deg); color: rgb(249, 87, 158);"></i>
+                    </div>
+                    <div class="navigationTwo" name="xz" style="display: block;">
+                        <div>
+                            <p><span>红外高光谱仿真</span></p>
+                        </div>
+                        <div>
+                            <p><span>微光成像仪仿真</span></p>
+                        </div>
+                        <div class="active">
+                            <p><span>风场测量雷达仿真</span></p>
+                        </div>
+                        <div>
+                            <p><span>微波温度计仿真</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu">
+                    <div class="navigationOne"><span>预处理</span><i class="fa fa-angle-right fa-lg"></i></div>
+                    <div class="navigationTwo" name="xz">
+                        <div>
+                            <p><span>红外高光谱预处理</span></p>
+                        </div>
+                        <div>
+                            <p><span>微光成像仪预处理</span></p>
+                        </div>
+                        <div>
+                            <p><span>风场测量雷达预处理</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="processBody">
+            <div class="processTab">
+                <div class="tabButton">
+                    <p>{{loadCNName}}</p>
+                    <button id="configuration" class="ant-btn btn btn-primary btn-lg" data-toggle="modal"
+                            data-target="#myModa2">
+                        <span id="peizhibut">仿真数据配置</span>
+                        <span id="peizhibut2"></span>
+                    </button>
+                    <button id="process_start" ng-click="process_start(loadCNName)" class="btn btn-primary "
+                            data-loading-text="Loading..." type="button"> 开始
+                    </button>
+                    <button id="process_simulation" ng-click="process_simulation(loadCNName)" class="btn btn-primary"
+                            data-loading-text="Loading..." type="button"> 模拟
+                    </button>
+
+                    <div class="modal fade" id="myModa2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        &times;
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="span6">
+                                        <div class="modalTitle"><h4>数据配置</h4></div>
+                                        <div class="input-group modalData">
+                                            <span class="input-group-addon">时间范围</span>
+                                            <input type="text" id="process_datarangepicker" class="form-control" value="" style="height: 30px">
+                                        </div>
+                                        <!--红外高光谱仿真-->
+                                        <div class="input-group-list" ng-show="is_HIRAS_Simulation_config">
+                                            <div class="input-group modalInput">
+                                                <span class="input-group-addon">轨道模拟数据</span>
+                                                <select name="selectAge" id="selectband">
+                                                    <option value="1">红外高光谱轨道模拟数据</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-group modalInput">
+                                                <span class="input-group-addon">正演仿真数据</span>
+                                                <input type="text" class="form-control bukedian"
+                                                       placeholder="WRF全球数据.30KM分辨率">
+                                            </div>
+                                        </div>
+
+                                        <!--微光成像仪仿真-->
+                                        <div class="input-group-list"  ng-show="is_MERSI_Simulation_config">
+                                            <div class="input-group modalInput">
+                                                <span class="input-group-addon">轨道模拟数据</span>
+                                                <input type="text" class="form-control bukedian" placeholder="微光成像仪轨道模拟数据">
+                                            </div>
+                                        </div>
+
+                                        <!--风场雷达仿真-->
+                                        <div class="input-group-list" ng-show="is_WINDRAD_Sim_config">
+                                            <div class="input-group modalInput">
+                                                <span class="input-group-addon">仿真类型</span>
+                                                <select name="selectAge" ng-model="WINDRAD_Sim_processType" ng-init="WINDRAD_Sim_processType = WINDRAD_Sim_processTypeContent[1]" ng-options = "x for x in WINDRAD_Sim_processTypeContent" ng-change="WINDRAD_Sim_processTypeChange()">
+                                                </select>
+                                            </div>
+                                            <div class="input-group modalInput">
+                                                <span class="input-group-addon">波段类型</span>
+                                                <select name="selectAge" ng-model="WINDRAD_Sim_bandType" ng-init="WINDRAD_Sim_bandType = WINDRAD_Sim_bandTypeContent[1]" ng-options = "x for x in WINDRAD_Sim_bandTypeContent" ng-change="WINDRAD_Sim_bandTypeChange()">
+                                                </select>
+                                            </div>
+                                            <div class="input-group modalInput">
+                                                <span class="input-group-addon">仿真方向</span>
+                                                <select name="selectAge" ng-model="WINDRAD_Sim_processDirection" ng-init="WINDRAD_Sim_processDirection = WINDRAD_Sim_processDirectionContent[1]" ng-options = "x for x in WINDRAD_Sim_processDirectionContent" ng-change="WINDRAD_Sim_processDirectionChange()">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!--微波温度计仿真配置-->
+                                        <div class="input-group-list" ng-show="is_MWTS_Simulation_config">
+                                            <div class="input-group modalInput">
+                                                <span class="input-group-addon">微波仿真数据</span>
+                                                <input type="text" class="form-control bukedian"
+                                                       placeholder="NOAA15_AMSU_A">
+                                            </div>
+                                        </div>
+
+                                        <!--红外预处理配置-->
+                                        <div class="input-group-list" ng-show="is_HIRAS_DPPS_config">
+                                            <div class="input-group modalInput">
+                                                <span class="input-group-addon">替代数据</span>
+                                                <input type="text" class="form-control bukedian"
+                                                       placeholder="FY3D红外高光谱发射前数据">
+                                            </div>
+                                        </div>
+
+                                        <!--微光预处理配置-->
+                                        <div class="input-group-list" ng-show="is_NPP_VIIRS_config">
+                                            <div class="input-group modalInput">
+                                                <span class="input-group-addon">替代数据</span>
+                                                <input type="text" class="form-control bukedian"
+                                                       placeholder="NPP/VIIRS L0数据">
+                                            </div>
+                                        </div>
+
+                                        <!--风场预处理配置-->
+                                        <div class="input-group-list" ng-show="is_WINDRAD_DPPS_config">
+                                            <div class="input-group modalInput">
+                                                <span class="input-group-addon">波段类型</span>
+                                                <select name="selectAge" ng-model="WINDRAD_DPPS_bandType" ng-init="WINDRAD_DPPS_bandType = WINDRAD_DPPS_bandTypeContent[1]" ng-options="x for x in WINDRAD_DPPS_bandTypeContent" ng-change="WINDRAD_DPPS_bandTypeChange()">
+                                                </select>
+                                            </div>
+                                            <div class="input-group modalInput">
+                                                <span class="input-group-addon">替代数据</span>
+                                                <input type="text" class="form-control bukedian" placeholder="风场测量雷达仿真数据">
+                                            </div>
+                                            <div class="input-group modalInput">
+                                                <span class="input-group-addon">定标方式</span>
+                                                <input type="text" class="form-control bukedian" placeholder="基于外场有源定标">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                                            id="simulationDisposition" ng-click="updateModal_simulation(loadCNName)">配置模拟
+                                    </button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" id="put" ng-click="updateModal_start(loadCNName)">配置开始
+                                    </button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal -->
+                    </div>
+                </div>
+                <!--仿真流程图-->
+                <div class="tabChart">
+                    <div class="tabChart_process" ng-show="tabChart_processName">
+                        <div class="tabChart_modal" ng-repeat="processInfo in tabChart_process_Ary">
+                            <!--圆圈一-->
+                            <div class="processCricle" data-dimension="200" data-text={{processInfo.percentage}}
+                                data-info={{processInfo.processName}} data-width="10" data-fontsize="30"
+                                data-percent={{processInfo.percentageNum}} data-fgcolor="#61a9dc" data-bgcolor="#eee" data-fill="#ddd"
+                                data-total="" data-part="" data-icon="long-arrow-up" data-icon-size="28"
+                                data-icon-color="#fff">
+                            </div>
+                            <!--进行中-->
+                            <div class="loading_start" ng-show="processInfo.loading_start">
+                                <div class="loading">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <!--完成箭头-->
+                            <div class="loading_end" ng-show="processInfo.loading_end">
+                                <img src="/public/P3/triangle.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="processContent">
+                <div class="content_text">
+                    <p>文件时刻成功列表</p>
+                    <ul ng-repeat="fileList in fileAry">
+                        <li>{{fileList}}</li>
+                    </ul>
+                </div>
+                <div class="content_Image">
+                    <p>{{photoName}}</p>
+                    <img src = {{photoURL}}>
+                </div>
+            </div>
+            <div class="content_bottom"></div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="/bower_components/moment/moment.js"></script>
+<script type="text/javascript" src="/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+<!--左侧菜单栏-->
+<script src="/lib/VerticalMenu/VerticalMenu.js"></script>
+
+<!--jq进度圈-->
+<script src="/lib/cricle/jquery.circliful.min.js"></script>
+
+<script type="text/javascript" src="/scripts/module.js"></script>
+<script type="text/javascript" src="/scripts/config.js"></script>
+<script type="text/javascript" src="/scripts/services.js"></script>
+<script type="text/javascript" src="/scripts/controller.js"></script>
+
+</html>
+

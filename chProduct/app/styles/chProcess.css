@@ -1,0 +1,326 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.processBg{
+    width: 100%;
+    height: 100%;
+    background-image: url("/public/P2/P2Bg.png");
+}
+
+/*上方部分*/
+.processTop{
+    width: 100%;
+    height: 15%;
+}
+
+/*上方返回箭头*/
+.processTopBack{
+    width: 10%;
+    height: 100%;
+    float: left;
+}
+
+.backImg{
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background-image: url("/public/P2/back.png");
+    background-size: 100% 100%;
+    left: 30%;
+    top: 30%;
+}
+
+.processTopTile{
+    width: 60%;
+    height: 100%;
+    float: left;
+}
+
+.processTopTile p{
+    position: absolute;
+    font-size: 3rem;
+    margin-bottom: 0;
+    margin-top: 35px;
+    font-family: "Microsoft YaHei", sans-serif;
+    color: #ffffff;
+}
+
+/*下方部分*/
+.processBottom{
+    width: 100%;
+    height: 85%;
+}
+
+/*下方左侧菜单栏*/
+.processMenu{
+    width: 15%;
+    height: 100%;
+    float: left;
+    background-color: #2D3A4A;
+}
+
+/*下方右侧部分*/
+.processBody{
+    width: 83%;
+    margin-left: 1%;
+    height: 100%;
+    float: left;
+    position: relative;
+    background: #f9f7f6;
+}
+
+/*下方右侧的上边tab*/
+.processTab{
+    width: 100%;
+    height: 25%;
+    background-image: url("/public/P3/mytab.png");
+    background-size: 100% 100%;
+}
+
+/*下方右侧的下边内容*/
+.processContent{
+    width: 100%;
+    height: 70%;
+    background: #f9f7f6;
+}
+
+.content_bottom{
+    width: 100%;
+    height: 5%;
+    background-image: url("/public/P2/myTabBottom.png");
+    background-size: 100% 100%;
+}
+
+/*tab区域按钮配置部分*/
+.tabButton{
+    width: 15%;
+    height: 100%;
+    float: left;
+}
+
+.tabButton p{
+    width: 100%;
+    font-size: 20px;
+    font-family: "Microsoft YaHei", sans-serif;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 10px;
+}
+
+.btn-primary{
+    font-size: 12px;
+    border-radius: 15px;
+    width: 60px;
+    text-align: center;
+}
+
+#process_start{
+    margin-left: 20%;
+    margin-right: 12%;
+    color: black;
+    font-family: monospace;
+    background-image: linear-gradient(to bottom, #58cdc5, #58cdc5);
+    background-color: #58cdc5;
+    -webkit-animation-name: bluePulse;
+    -webkit-animation-duration: 2s;
+}
+
+#process_simulation{
+    color: black;
+    font-family: monospace;
+    margin-left: -6px;
+    background-image: linear-gradient(to bottom, #58cdc5, #58cdc5);
+    background-color: #58cdc5;
+    -webkit-animation-name: bluePulse;
+    -webkit-animation-duration: 2s;
+}
+
+#configuration{
+    width: 50%;
+    margin-bottom: 20px;
+    margin-left: 25%;
+    text-align: center;
+}
+
+/*流程图部分*/
+/*loading*/
+.loading{
+    width: 150px;
+    height: 15px;
+    margin: 0 auto;
+    margin-top:90px;
+}
+.loading span{
+    display: inline-block;
+    width: 15px;
+    height: 100%;
+    margin-right: 5px;
+    border-radius: 50%;
+    background: #58cdc5;
+    -webkit-animation: load 1.04s ease infinite;
+}
+.loading span:last-child{
+    margin-right: 0px;
+}
+@-webkit-keyframes load{
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+.loading span:nth-child(1){
+    -webkit-animation-delay:0.13s;
+}
+.loading span:nth-child(2){
+    -webkit-animation-delay:0.26s;
+}
+.loading span:nth-child(3){
+    -webkit-animation-delay:0.39s;
+}
+
+/**/
+.tabChart{
+    width: 85%;
+    height: 100%;
+    float: left;
+    overflow: hidden;
+}
+
+.tabChart_process{
+    width: 100%;
+    height: 100%;
+}
+
+.tabChart_modal{
+    width: 220px;
+    height: 100%;
+    float: left;
+}
+
+.processCricle{
+    float: left;
+}
+
+.loading_start{
+    float: left;
+    width: 10px;
+}
+
+.loading_end{
+    height: 100%;
+    float: left;
+    padding-top: 80px;
+}
+
+/*配置设置*/
+/*仿真配置*/
+/*#WINDRAD_Sim{
+    display: block;
+}
+
+#MERSI_Simulation{
+    display: none;
+}
+
+#HIRAS_Simulation{
+    display: none;
+}
+
+#MWTS_Simulation{
+    display: none;
+}
+
+!*预处理配置*!
+#HIRAS_DPPS{
+    display: none;
+}
+
+#NPP_VIIRS{
+    display: none;
+}
+
+#WINDRAD_DPPS{
+    display: none;
+}*/
+
+/*模态框内容样式*/
+.modal-body .span6 .input-group{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.modal-body .span6 .input-group span {
+    width: 150px;
+    padding-left: 30px;
+    padding-top: 5px;
+    display: inline-block;
+}
+
+.modal-body .span6 .input-group input {
+    width: 150px;
+    display: inline-block;
+}
+
+.modal-body .span6 .input-group select {
+    width: 316px;
+    height: 30px;
+    font-size: 15px;
+    padding: 0 .75rem;
+    display: inline-block;
+}
+
+/*右下方左侧执行成功的图片类表*/
+.content_text {
+    width: 40%;
+    height: 100%;
+    float: left
+}
+
+.content_text p {
+    width: 100%;
+    text-align: center;
+    height: 5%;
+}
+
+.content_text ul {
+    width: 100%;
+    height: 95%;
+    overflow: auto;
+}
+
+.content_text ul li {
+    width: 100%;
+    text-align: center;
+    height: 20px;
+    color: #000000;
+}
+
+/*右下方右侧图片路径*/
+.content_Image {
+    width: 59%;
+    height: 100%;
+    float: right
+}
+
+.content_Image p {
+    width: 100%;
+    text-align: center;
+    height: 5%;
+}
+
+.content_Image img {
+    width: 100%;
+    height: 95%;
+}
